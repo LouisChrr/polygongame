@@ -36,6 +36,9 @@
     <ClCompile Include="Collision.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="Ball.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Physic.h">
@@ -54,6 +57,9 @@
       <Filter>Fichiers sources</Filter>
     </ClInclude>
     <ClInclude Include="Collision.h">
+      <Filter>Fichiers sources</Filter>
+    </ClInclude>
+    <ClInclude Include="Ball.h">
       <Filter>Fichiers sources</Filter>
     </ClInclude>
   </ItemGroup>

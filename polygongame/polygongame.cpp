@@ -6,6 +6,7 @@
 #include "Trail.h"
 #include "Bullet.h"
 #include "Game.h"
+#include "Ball.h"
 
 void UpdateKeyState(bool isActive, sf::Event* event, std::map<sf::Keyboard::Key, bool>* keys) {
     std::map<sf::Keyboard::Key, bool>::iterator iterator;
@@ -39,6 +40,7 @@ int main()
     //float timer = 0.0f;
     float cooldown = 0.0f;
     float trailCooldown = 0.0f;
+    float ballSpawnCooldown = 0.0f;
 
     while (window.isOpen())
     {
@@ -94,12 +96,14 @@ int main()
 
         cooldown -= deltaTime;
         trailCooldown -= deltaTime;
+        ballSpawnCooldown -= deltaTime;
 
         if (trailCooldown <= 0) {
             trailCooldown = 0.04f;
             UpdateTrails(game);
         }
 
+<<<<<<< HEAD
         myView.setCenter(player->shape.getPosition());
         myView.setSize(sf::Vector2f(1600.0f, 900.0f));
         window.setView(myView);
@@ -109,6 +113,17 @@ int main()
         //drawTrail(player, &window);
         //printf("deltatime: %f\n", deltaTime);
         //MoveAgent(player, deltaTime);
+=======
+        if (ballSpawnCooldown <= 0 && game->balls.size() < game->maxBallCount) {
+            ballSpawnCooldown = 3.0f;
+            CreateBall(game);
+        }
+         
+        BallSpawner(&window, game, deltaTime);
+
+
+
+>>>>>>> develop-jerome
 
         //window.draw(player->shape);
         //window.draw(enemy->shape);

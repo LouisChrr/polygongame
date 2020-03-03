@@ -7,6 +7,7 @@ Game* CreateGame(Agent* player) {
 	Game* game = new Game;
 	game->player = player;
 	game->bullets = std::list<Bullet*>();
+<<<<<<< HEAD
 	game->ennemies = std::list<Agent*>();
 
 	for (int i = 0; i < ennemy_nb; i++) {
@@ -84,6 +85,9 @@ void UpdateGame(float deltatime, Game* game, sf::RenderWindow* window) {
 			bullet++;
 		}
 	}
+=======
+	game->balls = std::list<Ball*>();
+>>>>>>> develop-jerome
 
 	//printf("UPDATE BULLETS FINI // \n");
 	//printf("FIN UPDATE GAME // \n");
