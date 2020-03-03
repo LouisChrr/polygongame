@@ -6,6 +6,7 @@
 #include "Trail.h"
 #include "Bullet.h"
 #include "Game.h"
+#include "Ball.h"
 
 void UpdateKeyState(bool isActive, sf::Event* event, std::map<sf::Keyboard::Key, bool>* keys) {
     std::map<sf::Keyboard::Key, bool>::iterator iterator;
@@ -40,6 +41,7 @@ int main()
     float timer = 0.0f;
     float cooldown = 0.0f;
     float trailCooldown = 0.0f;
+    float ballSpawnCooldown = 0.0f;
 
     while (window.isOpen())
     {
@@ -94,6 +96,7 @@ int main()
 
         cooldown -= deltaTime;
         trailCooldown -= deltaTime;
+        ballSpawnCooldown -= deltaTime;
 
         std::list<Bullet*>::iterator it = game->bullets.begin();
 
@@ -117,12 +120,19 @@ int main()
             updateTrail(enemy);
         }
 
-        drawTrail(player, &window);
+        if (ballSpawnCooldown <= 0 && game->balls.size() < game->maxBallCount) {
+            ballSpawnCooldown = 3.0f;
+            CreateBall(game);
+        }
+         
+        BallSpawner(&window, game, deltaTime);
+
+        drawTrail(player, &window, deltaTime);
 
         MoveAgent(player, deltaTime);
 
         UpdateEnemyRotation(player, enemy, deltaTime);
-        drawTrail(enemy, &window);
+        drawTrail(enemy, &window, deltaTime);
         AddForce(enemy, moveDir(enemy, 1), deltaTime);
         MoveAgent(enemy, deltaTime);
 

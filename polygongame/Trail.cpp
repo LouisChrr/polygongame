@@ -10,31 +10,31 @@ void updateTrail(Agent* agent) {
 
 	agent->trail.shapes.push_back(shape);
 
-	if (agent->trail.shapes.size() > 100)
+	if (agent->trail.shapes.size() > 5)
 		agent->trail.shapes.pop_front();
 
 }
 
-void drawTrail(Agent* agent, sf::RenderWindow* window) {
+void drawTrail(Agent* agent, sf::RenderWindow* window, float deltaTime) {
 
 	std::list<sf::CircleShape>::iterator it = agent->trail.shapes.begin();
 
 	while (it != agent->trail.shapes.end()) {
 
 		float alpha = (*it).getFillColor().a;
-		alpha *= 0.999f;
-
-		if (alpha <= 0)
-			alpha = 0;
+		alpha -= (deltaTime);
 
 		if (agent->type == PLAYER)
 			(*it).setFillColor(sf::Color(0, alpha, 255, alpha));
 
 		else
-			(*it).setFillColor(sf::Color(255, alpha, 0, alpha));
+			(*it).setFillColor(sf::Color(255, 255 - alpha, 0, alpha));
+
+		if (alpha <= 0) {
+			it = agent->trail.shapes.erase(it);
+		}
 
 		window->draw(*it);
-
 		it++;
 
 	}

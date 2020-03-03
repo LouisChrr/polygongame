@@ -1,8 +1,8 @@
 ﻿  Trail.cpp
-C:\Users\Jérôme\source\repos\polygongame\polygongame\Agent.h(7,14): warning C4099: 'Agent' : nom de type déjà rencontré avec 'class' et utilisant maintenant 'struct'
-C:\Users\Jérôme\source\repos\polygongame\polygongame\Agent.h(7): message : voir la déclaration de 'Agent'
-C:\Users\Jérôme\source\repos\polygongame\polygongame\Trail.cpp(32,48): warning C4244: 'argument' : conversion de 'float' en 'sf::Uint8', perte possible de données
-C:\Users\Jérôme\source\repos\polygongame\polygongame\Trail.cpp(32,36): warning C4244: 'argument' : conversion de 'float' en 'sf::Uint8', perte possible de données
-C:\Users\Jérôme\source\repos\polygongame\polygongame\Trail.cpp(35,48): warning C4244: 'argument' : conversion de 'float' en 'sf::Uint8', perte possible de données
-C:\Users\Jérôme\source\repos\polygongame\polygongame\Trail.cpp(35,38): warning C4244: 'argument' : conversion de 'float' en 'sf::Uint8', perte possible de données
-  polygongame.vcxproj -> C:\Users\Jérôme\source\repos\polygongame\Debug\polygongame.exe
+C:\Users\Jérôme\Desktop\zeg\polygongame\polygongame\Agent.h(7,14): warning C4099: 'Agent' : nom de type déjà rencontré avec 'class' et utilisant maintenant 'struct'
+C:\Users\Jérôme\Desktop\zeg\polygongame\polygongame\Agent.h(7): message : voir la déclaration de 'Agent'
+C:\Users\Jérôme\Desktop\zeg\polygongame\polygongame\Trail.cpp(28,48): warning C4244: 'argument' : conversion de 'float' en 'sf::Uint8', perte possible de données
+C:\Users\Jérôme\Desktop\zeg\polygongame\polygongame\Trail.cpp(28,36): warning C4244: 'argument' : conversion de 'float' en 'sf::Uint8', perte possible de données
+C:\Users\Jérôme\Desktop\zeg\polygongame\polygongame\Trail.cpp(31,54): warning C4244: 'argument' : conversion de 'float' en 'sf::Uint8', perte possible de données
+C:\Users\Jérôme\Desktop\zeg\polygongame\polygongame\Trail.cpp(31,42): warning C4244: 'argument' : conversion de 'float' en 'sf::Uint8', perte possible de données
+  polygongame.vcxproj -> C:\Users\Jérôme\Desktop\zeg\polygongame\Debug\polygongame.exe
