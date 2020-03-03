@@ -1,8 +1,5 @@
-﻿  Trail.cpp
-C:\Users\Jérôme\source\repos\polygongame\polygongame\Agent.h(7,14): warning C4099: 'Agent' : nom de type déjà rencontré avec 'class' et utilisant maintenant 'struct'
-C:\Users\Jérôme\source\repos\polygongame\polygongame\Agent.h(7): message : voir la déclaration de 'Agent'
-C:\Users\Jérôme\source\repos\polygongame\polygongame\Trail.cpp(32,48): warning C4244: 'argument' : conversion de 'float' en 'sf::Uint8', perte possible de données
-C:\Users\Jérôme\source\repos\polygongame\polygongame\Trail.cpp(32,36): warning C4244: 'argument' : conversion de 'float' en 'sf::Uint8', perte possible de données
-C:\Users\Jérôme\source\repos\polygongame\polygongame\Trail.cpp(35,48): warning C4244: 'argument' : conversion de 'float' en 'sf::Uint8', perte possible de données
-C:\Users\Jérôme\source\repos\polygongame\polygongame\Trail.cpp(35,38): warning C4244: 'argument' : conversion de 'float' en 'sf::Uint8', perte possible de données
-  polygongame.vcxproj -> C:\Users\Jérôme\source\repos\polygongame\Debug\polygongame.exe
+﻿  Physic.cpp
+C:\Users\louis\Desktop\polygongame\polygongame\polygongame\Agent.h(7,14): warning C4099: 'Agent': type name first seen using 'class' now seen using 'struct'
+C:\Users\louis\Desktop\polygongame\polygongame\polygongame\Agent.h(7): message : see declaration of 'Agent'
+C:\Users\louis\Desktop\polygongame\polygongame\polygongame\Physic.cpp(31,19): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+  polygongame.vcxproj -> C:\Users\louis\Desktop\polygongame\polygongame\Debug\polygongame.exe

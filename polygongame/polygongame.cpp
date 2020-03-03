@@ -31,13 +31,12 @@ int main()
 
     sf::Clock clock;
     sf::RenderWindow window(sf::VideoMode(1600, 900), "SpaceX");
-
+    sf::View myView;
 
     Agent* player = CreatePlayer();
-    Agent* enemy = CreateEnemy();
-    Game* game = new Game;
+    Game* game = CreateGame(player);
 
-    float timer = 0.0f;
+    //float timer = 0.0f;
     float cooldown = 0.0f;
     float trailCooldown = 0.0f;
 
@@ -65,11 +64,12 @@ int main()
         window.clear();
 
         float deltaTime = clock.restart().asSeconds();
-
-        timer += deltaTime;
+        //float deltaTime = 0.002f;
+        //printf("deltatime: %f\n", deltaTime);
+       // deltaTime /= 10;
+        //timer += deltaTime;
 
         if (Keys[sf::Keyboard::Key::Left]) {
-
             Rotate(player, -1, deltaTime);
         }
 
@@ -95,39 +95,23 @@ int main()
         cooldown -= deltaTime;
         trailCooldown -= deltaTime;
 
-        std::list<Bullet*>::iterator it = game->bullets.begin();
-
-        while (it != game->bullets.end()) {
-
-            UpdatePosition(*it, deltaTime);
-
-            if (outOfBounds(*it) || CheckDamage((*it), enemy)) {
-                it = game->bullets.erase(it);
-            }
-
-            else {
-                window.draw((*it)->shape);
-                it++;
-            }
-        }
-
         if (trailCooldown <= 0) {
-            trailCooldown = 0.01f;
-            updateTrail(player);
-            updateTrail(enemy);
+            trailCooldown = 0.04f;
+            UpdateTrails(game);
         }
 
-        drawTrail(player, &window);
+        myView.setCenter(player->shape.getPosition());
+        myView.setSize(sf::Vector2f(1600.0f, 900.0f));
+        window.setView(myView);
 
-        MoveAgent(player, deltaTime);
+        UpdateGame(deltaTime, game, &window);
+        
+        //drawTrail(player, &window);
+        //printf("deltatime: %f\n", deltaTime);
+        //MoveAgent(player, deltaTime);
 
-        UpdateEnemyRotation(player, enemy, deltaTime);
-        drawTrail(enemy, &window);
-        AddForce(enemy, moveDir(enemy, 1), deltaTime);
-        MoveAgent(enemy, deltaTime);
-
-        window.draw(player->shape);
-        window.draw(enemy->shape);
+        //window.draw(player->shape);
+        //window.draw(enemy->shape);
 
         window.display();
     }

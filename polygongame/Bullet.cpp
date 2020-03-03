@@ -23,10 +23,10 @@ void UpdatePosition(Bullet* bullet, float deltaTime) {
 
 }
 
-bool outOfBounds(Bullet* bullet) {
+bool outOfBounds(Bullet* bullet, Agent* player) {
 
-	return !(bullet->shape.getPosition().x < 1590 && bullet->shape.getPosition().x > 10
-		&& bullet->shape.getPosition().y < 890 && bullet->shape.getPosition().y > 10);
+	return !(bullet->shape.getPosition().x < player->shape.getPosition().x + 800 && bullet->shape.getPosition().x > player->shape.getPosition().x - 800
+		&& bullet->shape.getPosition().y < player->shape.getPosition().y + 450 && bullet->shape.getPosition().y > player->shape.getPosition().y - 450);
 
 }
 
@@ -34,12 +34,7 @@ bool CheckDamage(Bullet* bullet, Agent* agent) {
 	
 	if (VectorMagnitude(bullet->shape.getPosition() - agent->shape.getPosition()) <= 10 && agent->type != PLAYER){
 	
-		agent->health -= bullet->damage;
-	
-		if (agent->health <= 0) {
-			agent->health = 100;
-			Teleport(agent);
-		}
+		
 
 		return true;
 	}

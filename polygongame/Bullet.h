@@ -16,5 +16,5 @@ struct Bullet {
 
 void InstantiateBullet(Agent* shooter, Game* game);
 void UpdatePosition(Bullet* bullet, float deltaTime);
-bool outOfBounds(Bullet* bullet);
+bool outOfBounds(Bullet* bullet, Agent* player);
 bool CheckDamage(Bullet* bullet, Agent* agent);

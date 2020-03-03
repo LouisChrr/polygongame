@@ -19,9 +19,11 @@ void drawTrail(Agent* agent, sf::RenderWindow* window) {
 
 	std::list<sf::CircleShape>::iterator it = agent->trail.shapes.begin();
 
+	float alpha = 0;
+
 	while (it != agent->trail.shapes.end()) {
 
-		float alpha = (*it).getFillColor().a;
+		alpha = (*it).getFillColor().a;
 		alpha *= 0.999f;
 
 		if (alpha <= 0)

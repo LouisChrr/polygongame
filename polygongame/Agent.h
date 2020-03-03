@@ -16,13 +16,17 @@ struct Agent {
 	int health = 100;
 	int energy = 100;
 	sf::CircleShape shape;
+	int tries;
+	float rotation;
+	float distance;
+	float lastRotation;
 
 };
 
 Agent* CreatePlayer();
 Agent* CreateEnemy();
 
-void Rotate(Agent* player, int direction, float deltaTime);
+void Rotate(Agent* player, float direction, float deltaTime);
 void UpdateEnemyRotation(Agent* player, Agent* enemy, float deltaTime);
 void MoveAgent(Agent* player, float deltaTime);
 sf::Vector2f moveDir(Agent* agent, int direction);
