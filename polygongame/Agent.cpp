@@ -184,5 +184,11 @@ void UpdateEnemyRotation(Agent* player, Agent* enemy, float deltaTime) {
 }
 
 void Teleport(Agent* agent) {
+<<<<<<< HEAD
 	agent->shape.setPosition(sf::Vector2f(rand() % 800, rand()%600));
+=======
+
+	agent->shape.setPosition(sf::Vector2f(rand() % 1600, rand()%900));
+	
+>>>>>>> develop-jerome
 }

@@ -121,8 +121,14 @@ int main()
          
         BallSpawner(&window, game, deltaTime);
 
+        drawTrail(player, &window, deltaTime);
 
+        MoveAgent(player, deltaTime);
 
+        UpdateEnemyRotation(player, enemy, deltaTime);
+        drawTrail(enemy, &window, deltaTime);
+        AddForce(enemy, moveDir(enemy, 1), deltaTime);
+        MoveAgent(enemy, deltaTime);
 >>>>>>> develop-jerome
 
         //window.draw(player->shape);

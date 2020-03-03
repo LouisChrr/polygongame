@@ -12,4 +12,4 @@ struct Trail {
 };
 
 void updateTrail(Agent* agent);
-void drawTrail(Agent* agent, sf::RenderWindow* window);void drawTrail(Agent* agent, sf::RenderWindow* window, float deltaTime);
+void drawTrail(Agent* agent, sf::RenderWindow* window, float deltaTime);
