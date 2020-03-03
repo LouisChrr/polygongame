@@ -1,7 +1,7 @@
 #pragma once
 #include "Agent.h"
 
-class Game;
+struct Game;
 
 struct Ball {
 	
@@ -11,4 +11,3 @@ struct Ball {
 };
 
 void CreateBall(Game* game);
-void BallSpawner(sf::RenderWindow* window, Game* game, float deltaTime);

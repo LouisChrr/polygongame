@@ -1,14 +1,15 @@
 #include "Game.h"
 #include "Agent.h"
 #include "Physic.h"
+#include "Ball.h"
 #define ennemy_nb 20
 
 Game* CreateGame(Agent* player) {
 	Game* game = new Game;
 	game->player = player;
 	game->bullets = std::list<Bullet*>();
-<<<<<<< HEAD
 	game->ennemies = std::list<Agent*>();
+	game->balls = std::list<Ball*>();
 
 	for (int i = 0; i < ennemy_nb; i++) {
 		Agent* ennemy = CreateEnemy();
@@ -29,11 +30,33 @@ void UpdateTrails(Game* game) {
 	}
 }
 
+void UpdateBalls(sf::RenderWindow* window, Game* game, float deltaTime) {
+	//printf("ON UPDATE LES BALLS\n");
+	std::list<Ball*>::iterator it = game->balls.begin();
+	int ite = 0;
+	while (it != game->balls.end()) {
+		ite++;
+		//printf("BALLS NUMBER %d UPDATED \n", ite);
+
+		window->draw((*it)->shape);
+		it++;
+
+	}
+	//printf("FIN UPDATE BALLS\n");
+
+}
+
 void UpdateGame(float deltatime, Game* game, sf::RenderWindow* window) {
+	// BALLS
+	UpdateBalls(window, game, deltatime);
+
+
 	// PLAYER
-	drawTrail(game->player, window);
+	drawTrail(game->player, window, deltatime);
 	MoveAgent(game->player, deltatime);
 	window->draw(game->player->shape);
+
+	
 
 	//printf("UPDATE PLAYER FINI // \n");
 	// ENNEMIES
@@ -41,7 +64,7 @@ void UpdateGame(float deltatime, Game* game, sf::RenderWindow* window) {
 	while (it != game->ennemies.end()) {
 		Agent* enemy = *it;
 		UpdateEnemyRotation(game->player, enemy, deltatime);
-		drawTrail(enemy, window);
+		drawTrail(enemy, window, deltatime);
 		AddForce(enemy, moveDir(enemy, 1), deltatime);
 		MoveAgent(enemy, deltatime);
 		window->draw(enemy->shape);
@@ -85,9 +108,6 @@ void UpdateGame(float deltatime, Game* game, sf::RenderWindow* window) {
 			bullet++;
 		}
 	}
-=======
-	game->balls = std::list<Ball*>();
->>>>>>> develop-jerome
 
 	//printf("UPDATE BULLETS FINI // \n");
 	//printf("FIN UPDATE GAME // \n");

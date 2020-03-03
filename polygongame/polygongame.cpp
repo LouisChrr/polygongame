@@ -103,33 +103,20 @@ int main()
             UpdateTrails(game);
         }
 
-<<<<<<< HEAD
-        myView.setCenter(player->shape.getPosition());
-        myView.setSize(sf::Vector2f(1600.0f, 900.0f));
-        window.setView(myView);
-
-        UpdateGame(deltaTime, game, &window);
-        
-        //drawTrail(player, &window);
-        //printf("deltatime: %f\n", deltaTime);
-        //MoveAgent(player, deltaTime);
-=======
         if (ballSpawnCooldown <= 0 && game->balls.size() < game->maxBallCount) {
             ballSpawnCooldown = 3.0f;
             CreateBall(game);
         }
-         
-        BallSpawner(&window, game, deltaTime);
 
-        drawTrail(player, &window, deltaTime);
+        myView.setCenter(player->shape.getPosition());
+        myView.setSize(sf::Vector2f(1600.0f, 900.0f));
+        window.setView(myView);
+        
+        //drawTrail(player, &window);
+        //printf("deltatime: %f\n", deltaTime);
+        //MoveAgent(player, deltaTime);
 
-        MoveAgent(player, deltaTime);
-
-        UpdateEnemyRotation(player, enemy, deltaTime);
-        drawTrail(enemy, &window, deltaTime);
-        AddForce(enemy, moveDir(enemy, 1), deltaTime);
-        MoveAgent(enemy, deltaTime);
->>>>>>> develop-jerome
+        UpdateGame(deltaTime, game, &window);
 
         //window.draw(player->shape);
         //window.draw(enemy->shape);

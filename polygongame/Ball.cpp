@@ -16,22 +16,3 @@ void CreateBall(Game* game) {
 	game->balls.push_back(ball);
 
 }
-
-void BallSpawner(sf::RenderWindow* window, Game* game, float deltaTime) {
-
-	std::list<Ball*>::iterator it = game->balls.begin();
-
-	while (it != game->balls.end()) {
-
-		window->draw((*it)->shape);
-		it++;
-
-	}
-
-}
-
-void CheckCollision() {
-
-	
-
-}
