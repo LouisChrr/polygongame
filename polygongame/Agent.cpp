@@ -188,10 +188,15 @@ void UpdateEnemyRotation(Agent* player, Agent* enemy, float deltaTime) {
 
 }
 
-void Teleport(Agent* agent) {
+void Respawn(Agent* agent) {
+
+	agent->health = 100;
+	agent->score = 0;
 
 	agent->shape.setPosition(sf::Vector2f(rand() % 8000, rand()%8000));
 
 	
+
+	agent->trail.shapes.clear();
 
 }

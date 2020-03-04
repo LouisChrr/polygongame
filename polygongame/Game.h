@@ -20,11 +20,12 @@ struct Game {
 	std::list<float*> floatsToLerp;
 };
 
-
 Game* CreateGame(Agent* player);
 void UpdateGame(float deltatime, Game* game, sf::RenderWindow* window);
 void UpdateTrails(Game* game);
 void UpdateBalls(sf::RenderWindow* window, Game* game, float deltaTime);
-void UpdateScore(Agent* agent, int add);<<<<<<< HEAD
+<<<<<<< HEAD
+void UpdateScore(Agent* agent, int add);
 =======
+void CheckHeadDamage(Agent* agent, Game* game);
 >>>>>>> origin/2
