@@ -1,5 +1,6 @@
 #include "Trail.h"
 #include "Agent.h"
+#include "Physic.h"
 
 void updateTrail(Agent* agent) {
 
@@ -57,4 +58,23 @@ void drawTrail(Agent* agent, sf::RenderWindow* window, float deltaTime) {
 		it++;
 
 	}
+}
+
+bool CheckTrailDamage(Agent* agent1, Agent* agent2) {
+
+	std::list<sf::CircleShape>::iterator shape = agent2->trail.shapes.begin();
+
+	while (shape != agent2->trail.shapes.end()) {
+
+		if (VectorMagnitude((*shape).getPosition() - agent1->shape.getPosition()) <= (*shape).getRadius() + agent1->shape.getRadius() * 1.1f) {
+
+			Respawn(agent1);
+
+			return true;
+		}
+		shape++;
+	}
+
+	return false;
+
 }

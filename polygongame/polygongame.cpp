@@ -108,7 +108,7 @@ int main()
             CreateBall(game);
         }
 
-      //  myView.setCenter(player->shape.getPosition());
+        myView.setCenter(player->shape.getPosition());
         myView.setSize(sf::Vector2f(1600.0f, 900.0f));
         window.setView(myView);
         

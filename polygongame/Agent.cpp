@@ -8,6 +8,7 @@
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>
 #include <math.h>
+
 Agent* CreatePlayer() {
 
 	Agent* player = new Agent;
@@ -30,6 +31,8 @@ Agent* CreateEnemy() {
 	//enemy->damper = 0.8f;
 	enemy->shape = sf::CircleShape(40, 8);
 	enemy->shape.setFillColor(sf::Color::Red);
+
+	enemy->score = 10;
 	
 	int randomx = 0;
 	int randomy = 0;
@@ -181,10 +184,15 @@ void UpdateEnemyRotation(Agent* player, Agent* enemy, float deltaTime) {
 
 }
 
-void Teleport(Agent* agent) {
+void Respawn(Agent* agent) {
+
+	agent->health = 100;
+	agent->score = 0;
 
 	agent->shape.setPosition(sf::Vector2f(rand() % 800, rand()%600));
 
 	agent->shape.setPosition(sf::Vector2f(rand() % 1600, rand()%900));
+
+	agent->trail.shapes.clear();
 
 }

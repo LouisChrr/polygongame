@@ -31,4 +31,4 @@ void Rotate(Agent* player, float direction, float deltaTime);
 void UpdateEnemyRotation(Agent* player, Agent* enemy, float deltaTime);
 void MoveAgent(Agent* player, float deltaTime);
 sf::Vector2f moveDir(Agent* agent, int direction);
-void Teleport(Agent* agent);
+void Respawn(Agent* agent);

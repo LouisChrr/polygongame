@@ -14,8 +14,8 @@ struct Game {
 
 };
 
-
 Game* CreateGame(Agent* player);
 void UpdateGame(float deltatime, Game* game, sf::RenderWindow* window);
 void UpdateTrails(Game* game);
 void UpdateBalls(sf::RenderWindow* window, Game* game, float deltaTime);
+void CheckHeadDamage(Agent* agent, Game* game);

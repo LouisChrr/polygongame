@@ -4,6 +4,22 @@
 #include "Ball.h"
 #define ennemy_nb 2
 
+void UpdateText(Game* game, sf::RenderWindow* window) {
+
+	sf::Font font;
+	font.loadFromFile("OldeEnglish.ttf");
+	sf::Text scoreText = sf::Text(std::to_string(0), font);
+	scoreText.setOrigin(scoreText.getCharacterSize() / 2, scoreText.getCharacterSize() / 2);
+	scoreText.setCharacterSize(60);
+	scoreText.setFillColor(sf::Color::White);
+
+	scoreText.setString(std::to_string(game->player->score));
+	scoreText.setPosition(game->player->shape.getPosition().x, game->player->shape.getPosition().y - 120);
+
+	window->draw(scoreText);
+
+}
+
 Game* CreateGame(Agent* player) {
 	Game* game = new Game;
 	game->player = player;
@@ -28,6 +44,29 @@ void UpdateTrails(Game* game) {
 		updateTrail(*it);
 		it++;
 	}
+}
+
+
+void CheckHeadDamage(Agent* agent, Game* game) {
+
+	std::list<Agent*>::iterator enemy = game->ennemies.begin();
+
+	while (enemy != game->ennemies.end()) {
+
+		if (agent != *enemy && VectorMagnitude((*enemy)->shape.getPosition() - agent->shape.getPosition()) <= (*enemy)->shape.getRadius() + agent->shape.getRadius() * 1.1f) {
+
+			if ((*enemy)->score > agent->score) {
+				(*enemy)->score += agent->score;
+				Respawn(agent);
+			}
+			else {
+				agent->score += (*enemy)->score;
+				Respawn((*enemy));
+			}
+		}
+		enemy++;
+	}
+
 }
 
 void UpdateBalls(sf::RenderWindow* window, Game* game, float deltaTime) {
@@ -59,7 +98,9 @@ void UpdateGame(float deltatime, Game* game, sf::RenderWindow* window) {
 	MoveAgent(game->player, deltatime);
 	window->draw(game->player->shape);
 
-	
+	//UI
+	UpdateText(game, window);
+
 
 	//printf("UPDATE PLAYER FINI // \n");
 	// ENNEMIES
@@ -101,7 +142,7 @@ void UpdateGame(float deltatime, Game* game, sf::RenderWindow* window) {
 
 					if ((*enemy)->health <= 0) {
 						(*enemy)->health = 100;
-						Teleport((*enemy));
+						Respawn((*enemy));
 					}
 
 					erase = true;
@@ -110,6 +151,27 @@ void UpdateGame(float deltatime, Game* game, sf::RenderWindow* window) {
 			}
 			bullet++;
 		}
+	}
+
+	//TRAILDAMAGE
+
+	std::list<Agent*>::iterator enemy = game->ennemies.begin();
+
+	CheckHeadDamage(game->player, game);
+
+	while (enemy != game->ennemies.end()) {
+
+		CheckHeadDamage(*enemy, game);
+
+		if (CheckTrailDamage((*enemy), game->player)) {
+			Respawn(*enemy);
+		}
+
+		if (CheckTrailDamage(game->player, (*enemy))) {
+			Respawn(game->player);
+		}
+
+		enemy++;
 	}
 
 	//printf("UPDATE BULLETS FINI // \n");
