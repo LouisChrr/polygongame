@@ -2,6 +2,7 @@
 #include "Ball.h"
 #include "Game.h"
 #include <cstdlib>
+#include "Physic.h"
 
 void CreateBall(Game* game) {
 
@@ -14,5 +15,15 @@ void CreateBall(Game* game) {
 	ball->shape.setPosition(ball->position);
 	ball->shape.setOrigin(2.5f, 2.5f);
 	game->balls.push_back(ball);
+
+}
+
+bool CheckCollision(Ball* ball, Agent* agent) {
+
+	if (VectorMagnitude(ball->position - agent->shape.getPosition()) <= agent->shape.getRadius() && agent->type == PLAYER) {
+		return true;
+	}
+
+	return false;
 
 }

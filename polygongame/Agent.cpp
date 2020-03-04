@@ -12,7 +12,7 @@ Agent* CreatePlayer() {
 
 	Agent* player = new Agent;
 	player->type = PLAYER;
-	player->shape = sf::CircleShape(10, 3);
+	player->shape = sf::CircleShape(40, 3);
 	player->shape.setFillColor(sf::Color::Green);
 	player->shape.setPosition(400,400);
 	player->shape.setOrigin(player->shape.getRadius(), player->shape.getRadius());
@@ -28,7 +28,7 @@ Agent* CreateEnemy() {
 	Agent* enemy = new Agent;
 	enemy->type = ENEMY;
 	//enemy->damper = 0.8f;
-	enemy->shape = sf::CircleShape(10, 8);
+	enemy->shape = sf::CircleShape(40, 8);
 	enemy->shape.setFillColor(sf::Color::Red);
 	
 	int randomx = 0;
@@ -64,9 +64,6 @@ void Rotate(Agent* player, float direction, float deltaTime) {
 }
 
 void MoveAgent(Agent* agent, float deltaTime) {
-	
-	//if(agent->)
-
 
 	agent->movingForce *= agent->damper;
 	agent->shape.move(agent->movingForce * deltaTime);
@@ -118,7 +115,8 @@ void UpdateEnemyRotation(Agent* player, Agent* enemy, float deltaTime) {
 
 	enemy->tries++;
 
-	int tries = (rand() % 250)+250;
+	int tries = (rand() % 50)+250;
+	tries = 50;
 
 	//printf("TRIES:%d\n", tries);
 

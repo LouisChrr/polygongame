@@ -16,12 +16,12 @@ void AddForce(Agent* agent, sf::Vector2f force, float deltaTime) {
 			agent->movingForce /= 1.0f / 200;
 		}
 	}
-	else if (agent->type == PLAYER) {
+	/*else if (agent->type == PLAYER) {
 		if (VectorMagnitude(agent->movingForce) > 400) {
 			agent->movingForce /= VectorMagnitude(agent->movingForce);
 			agent->movingForce /= 1.0f / 200;
 		}
-	}
+	}*/
 	
 
 }

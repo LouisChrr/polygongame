@@ -11,7 +11,6 @@ struct Game {
 	std::list<Agent*> ennemies;
 	std::list<Ball*> balls;
 	int maxBallCount = 30;
-	int score = 0;
 
 };
 

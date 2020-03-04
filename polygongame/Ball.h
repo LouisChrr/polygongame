@@ -11,3 +11,4 @@ struct Ball {
 };
 
 void CreateBall(Game* game);
+bool CheckCollision(Ball* ball, Agent* agent);

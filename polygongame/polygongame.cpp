@@ -99,7 +99,7 @@ int main()
         ballSpawnCooldown -= deltaTime;
 
         if (trailCooldown <= 0) {
-            trailCooldown = 0.04f;
+            trailCooldown = 0.02f;
             UpdateTrails(game);
         }
 
@@ -108,7 +108,7 @@ int main()
             CreateBall(game);
         }
 
-        myView.setCenter(player->shape.getPosition());
+      //  myView.setCenter(player->shape.getPosition());
         myView.setSize(sf::Vector2f(1600.0f, 900.0f));
         window.setView(myView);
         

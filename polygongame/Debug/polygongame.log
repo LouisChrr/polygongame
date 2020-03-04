@@ -1,24 +1,8 @@
-﻿  Ball.cpp
-C:\Users\Jérôme\Desktop\zeg\polygongame\polygongame\Agent.h(7,14): warning C4099: 'Agent' : nom de type déjà rencontré avec 'class' et utilisant maintenant 'struct'
-C:\Users\Jérôme\Desktop\zeg\polygongame\polygongame\Agent.h(7): message : voir la déclaration de 'Agent'
-C:\Users\Jérôme\Desktop\zeg\polygongame\polygongame\Bullet.h(3,11): warning C4099: 'Game' : nom de type déjà rencontré avec 'struct' et utilisant maintenant 'class'
-C:\Users\Jérôme\Desktop\zeg\polygongame\polygongame\Ball.h(4): message : voir la déclaration de 'Game'
-C:\Users\Jérôme\Desktop\zeg\polygongame\polygongame\Ball.cpp(12,54): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
-          with
-          [
-              T=float
-          ]
-C:\Users\Jérôme\Desktop\zeg\polygongame\polygongame\Ball.cpp(12,39): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
-          with
-          [
-              T=float
-          ]
-  Game.cpp
+﻿  Game.cpp
 C:\Users\Jérôme\Desktop\zeg\polygongame\polygongame\Agent.h(7,14): warning C4099: 'Agent' : nom de type déjà rencontré avec 'class' et utilisant maintenant 'struct'
 C:\Users\Jérôme\Desktop\zeg\polygongame\polygongame\Agent.h(7): message : voir la déclaration de 'Agent'
 C:\Users\Jérôme\Desktop\zeg\polygongame\polygongame\Ball.h(4,12): warning C4099: 'Game' : nom de type déjà rencontré avec 'class' et utilisant maintenant 'struct'
 C:\Users\Jérôme\Desktop\zeg\polygongame\polygongame\Bullet.h(3): message : voir la déclaration de 'Game'
 C:\Users\Jérôme\Desktop\zeg\polygongame\polygongame\Game.h(7,13): warning C4099: 'Game' : nom de type déjà rencontré avec 'class' et utilisant maintenant 'struct'
 C:\Users\Jérôme\Desktop\zeg\polygongame\polygongame\Game.h(7): message : voir la déclaration de 'Game'
-  Génération de code en cours...
   polygongame.vcxproj -> C:\Users\Jérôme\Desktop\zeg\polygongame\Debug\polygongame.exe

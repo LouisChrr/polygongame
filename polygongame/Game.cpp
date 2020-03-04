@@ -2,7 +2,7 @@
 #include "Agent.h"
 #include "Physic.h"
 #include "Ball.h"
-#define ennemy_nb 20
+#define ennemy_nb 2
 
 Game* CreateGame(Agent* player) {
 	Game* game = new Game;
@@ -33,10 +33,13 @@ void UpdateTrails(Game* game) {
 void UpdateBalls(sf::RenderWindow* window, Game* game, float deltaTime) {
 	//printf("ON UPDATE LES BALLS\n");
 	std::list<Ball*>::iterator it = game->balls.begin();
-	int ite = 0;
 	while (it != game->balls.end()) {
-		ite++;
-		//printf("BALLS NUMBER %d UPDATED \n", ite);
+
+		if (CheckCollision(*it, game->player)){
+			it = game->balls.erase(it);
+			game->player->score++;
+			return;
+	}
 
 		window->draw((*it)->shape);
 		it++;
