@@ -7,8 +7,9 @@ struct Ball {
 	
 	sf::CircleShape shape;
 	sf::Vector2f position;
+	int size;
 
 };
 
-void CreateBall(Game* game);
+void CreateBall(Game* game, int size);
 bool CheckCollision(Ball* ball, Agent* agent);

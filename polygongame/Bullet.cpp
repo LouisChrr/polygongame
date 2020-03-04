@@ -8,12 +8,14 @@ void InstantiateBullet(Agent* shooter, Game* game) {
 
 	Bullet* bullet = new Bullet;
 	bullet->type = FRIENDLY;
-	bullet->shape = sf::CircleShape(2);
+	bullet->shape = sf::CircleShape(5);
 	bullet->shape.setFillColor(sf::Color::White);
 	bullet->shape.setPosition(shooter->shape.getPosition());
 	bullet->shape.setOrigin(2,2);
 	bullet->direction = moveDir(shooter, 1) * (1 + VectorMagnitude(shooter->movingForce));
 	game->bullets.push_back(bullet);
+
+	UpdateScore(shooter, -1);
 
 }
 
@@ -32,10 +34,7 @@ bool outOfBounds(Bullet* bullet, Agent* player) {
 
 bool CheckDamage(Bullet* bullet, Agent* agent) {
 	
-	if (VectorMagnitude(bullet->shape.getPosition() - agent->shape.getPosition()) <= 10 && agent->type != PLAYER){
-	
-		
-
+	if (VectorMagnitude(bullet->shape.getPosition() - agent->shape.getPosition()) <= 40 && agent->type != PLAYER){
 		return true;
 	}
 

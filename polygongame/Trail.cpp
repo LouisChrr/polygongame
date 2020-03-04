@@ -4,7 +4,7 @@
 void updateTrail(Agent* agent) {
 
 	sf::CircleShape shape = agent->shape;
-	shape.setPointCount(100);
+	shape.setPointCount(20);
 	shape.setRadius(shape.getRadius());
 	shape.setOrigin(shape.getRadius(), shape.getRadius());
 	shape.setOutlineThickness(0);
@@ -37,7 +37,7 @@ void drawTrail(Agent* agent, sf::RenderWindow* window, float deltaTime) {
 		alpha = (shapeIndex / agent->trail.shapes.size()) * 255.0f;
 
 		(*it).setRadius((shapeIndex / agent->trail.shapes.size()) * agent->shape.getRadius() * 0.6f);
-		(*it).setOrigin((*it).getRadius(), (*it).getRadius());
+		(*it).setOrigin((*it).getRadius(), (*it).getRadius()*0.5f);
 
 		shapeIndex++;
 

@@ -14,7 +14,7 @@ Agent* CreatePlayer() {
 	player->type = PLAYER;
 	player->shape = sf::CircleShape(40, 3);
 	player->shape.setFillColor(sf::Color::Green);
-	player->shape.setPosition(400,400);
+	player->shape.setPosition(4000,4000);
 	player->shape.setOrigin(player->shape.getRadius(), player->shape.getRadius());
 	player->shape.setOutlineThickness(1);
 	player->shape.setOutlineColor(sf::Color(0,100,0));
@@ -30,20 +30,7 @@ Agent* CreateEnemy() {
 	//enemy->damper = 0.8f;
 	enemy->shape = sf::CircleShape(40, 8);
 	enemy->shape.setFillColor(sf::Color::Red);
-	
-	int randomx = 0;
-	int randomy = 0;
-	int randombool = (rand() % 100);
-	if (randombool < 50) {
-		 randomx = (rand() % 800) + 800;
-		 randomy = -(rand() % 550) + 550;
-	}
-	else {
-		 randomx = -(rand() % 800) + 800;
-		 randomy = (rand() % 550) + 550;
-	}
-
-	enemy->shape.setPosition(randomx, randomy);
+	enemy->shape.setPosition(sf::Vector2f(rand() % 8000, rand() % 8000));
 	enemy->shape.setOrigin(enemy->shape.getRadius(), enemy->shape.getRadius());
 	enemy->shape.setOutlineThickness(1);
 	enemy->shape.setOutlineColor(sf::Color(100, 0, 0));
@@ -183,8 +170,8 @@ void UpdateEnemyRotation(Agent* player, Agent* enemy, float deltaTime) {
 
 void Teleport(Agent* agent) {
 
-	agent->shape.setPosition(sf::Vector2f(rand() % 800, rand()%600));
+	agent->shape.setPosition(sf::Vector2f(rand() % 8000, rand()%8000));
 
-	agent->shape.setPosition(sf::Vector2f(rand() % 1600, rand()%900));
+	
 
 }

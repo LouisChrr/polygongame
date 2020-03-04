@@ -103,13 +103,29 @@ int main()
             UpdateTrails(game);
         }
 
-        if (ballSpawnCooldown <= 0 && game->balls.size() < game->maxBallCount) {
+        if ((ballSpawnCooldown <= 0 && game->balls.size() < game->maxBallCount) || game->balls.size() < 400) {
             ballSpawnCooldown = 3.0f;
-            CreateBall(game);
+            int random = rand() % 101;
+            int size = 1;
+            if (random < 50) {
+                size = 1;
+            }
+            else if (random >= 50 && random < 85) {
+                size = 2;
+            }
+            else if(random < 95 && random >= 85){
+                size = 3;
+            }
+            else {
+                size = 5;
+            }
+
+            CreateBall(game, size);
         }
 
-      //  myView.setCenter(player->shape.getPosition());
+        myView.setCenter(player->shape.getPosition());
         myView.setSize(sf::Vector2f(1600.0f, 900.0f));
+        myView.zoom(1.0f + (game->player->score/35.0f));
         window.setView(myView);
         
         //drawTrail(player, &window);

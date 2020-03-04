@@ -10,10 +10,11 @@ void AddForce(Agent* agent, sf::Vector2f force, float deltaTime) {
 	agent->movingForce += force * deltaTime * agent->moveSpeed;
 	if (agent->type == ENEMY) {
 		//printf("ENEMY AGENT MOVING FORCE BEFORE CLAMP: %f\n", VectorMagnitude(agent->movingForce));
-
-		if (VectorMagnitude(agent->movingForce) > 200) {
+		int speed = 300 - (agent->score * 15);
+		if (speed < 200) speed = 200;
+		if (VectorMagnitude(agent->movingForce) > speed) {
 			agent->movingForce /= VectorMagnitude(agent->movingForce);
-			agent->movingForce /= 1.0f / 200;
+			agent->movingForce /= 1.0f / speed;
 		}
 	}
 	/*else if (agent->type == PLAYER) {

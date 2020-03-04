@@ -20,7 +20,7 @@ struct Agent {
 	float rotation;
 	float distance;
 	float lastRotation;
-	int score = 0;
+	float score = 0;
 
 };
 

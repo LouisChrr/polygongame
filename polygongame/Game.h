@@ -10,8 +10,14 @@ struct Game {
 	std::list<Bullet*> bullets;
 	std::list<Agent*> ennemies;
 	std::list<Ball*> balls;
-	int maxBallCount = 30;
+	int maxBallCount = 100;
 
+	int xMax = 8000;
+	int yMax = 8000;
+
+	int frame = 0;
+
+	std::list<float*> floatsToLerp;
 };
 
 
@@ -19,3 +25,4 @@ Game* CreateGame(Agent* player);
 void UpdateGame(float deltatime, Game* game, sf::RenderWindow* window);
 void UpdateTrails(Game* game);
 void UpdateBalls(sf::RenderWindow* window, Game* game, float deltaTime);
+void UpdateScore(Agent* agent, int add);

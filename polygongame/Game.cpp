@@ -2,7 +2,7 @@
 #include "Agent.h"
 #include "Physic.h"
 #include "Ball.h"
-#define ennemy_nb 2
+#define ennemy_nb 5
 
 Game* CreateGame(Agent* player) {
 	Game* game = new Game;
@@ -20,6 +20,15 @@ Game* CreateGame(Agent* player) {
 	return game;
 }
 
+
+
+void UpdateScore(Agent* agent, int add) {
+	agent->score += add;
+
+	if (agent->score <= 0)
+		agent->score = 0;
+
+}
 void UpdateTrails(Game* game) {
 	updateTrail(game->player);
 	
@@ -32,24 +41,76 @@ void UpdateTrails(Game* game) {
 
 void UpdateBalls(sf::RenderWindow* window, Game* game, float deltaTime) {
 	//printf("ON UPDATE LES BALLS\n");
+	//std::list<Ball*>::iterator it = game->balls.begin();
+
+	if (game->frame % 50 == 0) {
+		//printf("Update player - balls %d\n", game->frame);
+		std::list<Ball*>::iterator it = game->balls.begin();
+		while (it != game->balls.end()) {
+				
+				if (CheckCollision(*it, game->player)) {
+					UpdateScore(game->player, (*it)->size);
+					float radius = 40.0f * ((game->player->score / 10.0f) + 1.0f);
+					game->player->shape.setRadius(radius);
+					game->player->shape.setOrigin(radius, radius);
+					it = game->balls.erase(it);
+					it = game->balls.end();
+					//return;
+				}
+				else {
+					it++;
+				}
+				
+		}
+	}
+
+
+	if (game->frame % 250 == 0) {
+		std::list<Agent*>::iterator enemy = game->ennemies.begin();
+		while (enemy != game->ennemies.end()) {
+			bool erase = false;
+
+			std::list<Ball*>::iterator ball = game->balls.begin();
+			while (ball != game->balls.end()) {
+				if (CheckCollision(*ball, *enemy)) {
+					UpdateScore(*enemy, (*ball)->size);
+					float radius = 40.0f * (((*enemy)->score / 10.0f) + 1.0f);
+					(*enemy)->shape.setRadius(radius);
+					(*enemy)->shape.setOrigin(radius, radius);
+					//it = game->balls.erase(it);
+					erase = true;
+					//return;
+					printf("ENNEMY COLISSION BALL ALERTE PREVENEZ TOUS LES KEYS\n");
+
+					ball = game->balls.erase(ball);
+				}
+				if (ball != game->balls.end()) {
+					ball++;
+				}
+			}
+			enemy++;
+
+
+		}
+
+
+
+	}
+
+	
 	std::list<Ball*>::iterator it = game->balls.begin();
 	while (it != game->balls.end()) {
-
-		if (CheckCollision(*it, game->player)){
-			it = game->balls.erase(it);
-			game->player->score++;
-			return;
-	}
-
 		window->draw((*it)->shape);
 		it++;
-
 	}
-	//printf("FIN UPDATE BALLS\n");
 
+	//printf("FIN UPDATE BALLS\n");
 }
 
 void UpdateGame(float deltatime, Game* game, sf::RenderWindow* window) {
+	// GAME
+	game->frame++;
+
 	// BALLS
 	UpdateBalls(window, game, deltatime);
 
@@ -57,6 +118,7 @@ void UpdateGame(float deltatime, Game* game, sf::RenderWindow* window) {
 	// PLAYER
 	drawTrail(game->player, window, deltatime);
 	MoveAgent(game->player, deltatime);
+	
 	window->draw(game->player->shape);
 
 	
