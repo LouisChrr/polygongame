@@ -8,6 +8,7 @@
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>
 #include <math.h>
+
 Agent* CreatePlayer() {
 
 	Agent* player = new Agent;
@@ -30,7 +31,26 @@ Agent* CreateEnemy() {
 	//enemy->damper = 0.8f;
 	enemy->shape = sf::CircleShape(40, 8);
 	enemy->shape.setFillColor(sf::Color::Red);
+<<<<<<< HEAD
 	enemy->shape.setPosition(sf::Vector2f(rand() % 8000, rand() % 8000));
+=======
+
+	enemy->score = 10;
+	
+	int randomx = 0;
+	int randomy = 0;
+	int randombool = (rand() % 100);
+	if (randombool < 50) {
+		 randomx = (rand() % 800) + 800;
+		 randomy = -(rand() % 550) + 550;
+	}
+	else {
+		 randomx = -(rand() % 800) + 800;
+		 randomy = (rand() % 550) + 550;
+	}
+
+	enemy->shape.setPosition(randomx, randomy);
+>>>>>>> origin/2
 	enemy->shape.setOrigin(enemy->shape.getRadius(), enemy->shape.getRadius());
 	enemy->shape.setOutlineThickness(1);
 	enemy->shape.setOutlineColor(sf::Color(100, 0, 0));
