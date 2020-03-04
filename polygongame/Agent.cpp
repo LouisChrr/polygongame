@@ -31,9 +31,9 @@ Agent* CreateEnemy() {
 	//enemy->damper = 0.8f;
 	enemy->shape = sf::CircleShape(40, 8);
 	enemy->shape.setFillColor(sf::Color::Red);
-<<<<<<< HEAD
+
 	enemy->shape.setPosition(sf::Vector2f(rand() % 8000, rand() % 8000));
-=======
+
 
 	enemy->score = 10;
 	
@@ -50,7 +50,7 @@ Agent* CreateEnemy() {
 	}
 
 	enemy->shape.setPosition(randomx, randomy);
->>>>>>> origin/2
+
 	enemy->shape.setOrigin(enemy->shape.getRadius(), enemy->shape.getRadius());
 	enemy->shape.setOutlineThickness(1);
 	enemy->shape.setOutlineColor(sf::Color(100, 0, 0));
@@ -194,7 +194,9 @@ void Respawn(Agent* agent) {
 	agent->score = 0;
 
 	agent->shape.setPosition(sf::Vector2f(rand() % 8000, rand()%8000));
+	agent->shape.setRadius(40);
 
+	agent->shape.setOrigin(20,20);
 	
 
 	agent->trail.shapes.clear();

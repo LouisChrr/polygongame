@@ -17,15 +17,15 @@ struct Game {
 
 	int frame = 0;
 
-	std::list<float*> floatsToLerp;
+	sf::Text* scoreText;
 };
 
 Game* CreateGame(Agent* player);
 void UpdateGame(float deltatime, Game* game, sf::RenderWindow* window);
 void UpdateTrails(Game* game);
 void UpdateBalls(sf::RenderWindow* window, Game* game, float deltaTime);
-<<<<<<< HEAD
+
 void UpdateScore(Agent* agent, int add);
-=======
+
 void CheckHeadDamage(Agent* agent, Game* game);
->>>>>>> origin/2
+
