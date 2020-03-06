@@ -125,7 +125,7 @@ int main()
 
         myView.setCenter(player->shape.getPosition());
         myView.setSize(sf::Vector2f(1600.0f, 900.0f));
-        myView.zoom(1.0f + (game->player->score/35.0f));
+        myView.zoom(1.0f + (game->player->score/40.0f));
         window.setView(myView);
         
         //drawTrail(player, &window);
