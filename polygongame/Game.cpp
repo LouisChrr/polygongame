@@ -90,7 +90,7 @@ void UpdateBalls(sf::RenderWindow* window, Game* game, float deltaTime) {
 	//printf("ON UPDATE LES BALLS\n");
 	//std::list<Ball*>::iterator it = game->balls.begin();
 
-	if (game->frame % 2 == 0) {
+	if (game->frame % 25 == 0) {
 		//printf("Update player - balls %d\n", game->frame);
 		std::list<Ball*>::iterator it = game->balls.begin();
 		while (it != game->balls.end()) {
@@ -112,7 +112,7 @@ void UpdateBalls(sf::RenderWindow* window, Game* game, float deltaTime) {
 	}
 
 
-	if (game->frame % 2 == 0) {
+	if (game->frame % 50 == 0) {
 		std::list<Agent*>::iterator enemy = game->ennemies.begin();
 		while (enemy != game->ennemies.end()) {
 			bool erase = false;
@@ -226,7 +226,7 @@ void UpdateGame(float deltatime, Game* game, sf::RenderWindow* window) {
 	}
 
 	//TRAILDAMAGE
-	if (game->frame % 2 == 0) {
+	if (game->frame % 25 == 0) {
 		std::list<Agent*>::iterator enemy = game->ennemies.begin();
 
 		CheckHeadDamage(game->player, game);
