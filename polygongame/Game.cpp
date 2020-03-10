@@ -2,16 +2,20 @@
 #include "Agent.h"
 #include "Physic.h"
 #include "Ball.h"
-#define ennemy_nb 5
+#include <cmath>
+#include <iostream>
+#define ennemy_nb 10
 
 void UpdateText(Game* game, sf::RenderWindow* window) {
 	sf::Font font;
 	font.loadFromFile("OldeEnglish.ttf");
-	std::string score = std::to_string(game->player->score);
+	std::string score = std::to_string((int)game->player->score);
 	game->scoreText = new sf::Text(score, font);
 
+	game->scoreText->setCharacterSize(40 + game->player->shape.getRadius());
+
 	//game->scoreText->setString(std::to_string(game->player->score));
-	game->scoreText->setPosition(game->player->shape.getPosition().x, game->player->shape.getPosition().y - 120);
+	game->scoreText->setPosition(game->player->shape.getPosition().x, game->player->shape.getPosition().y - 240);
 
 	window->draw(*(game->scoreText));
 }
@@ -44,10 +48,30 @@ Game* CreateGame(Agent* player) {
 	return game;
 }
 
+void LerpPosition(sf::RenderWindow* window, float deltaTime, Game* game) {
 
+	sf::View myView;
+
+	myView = window->getView();
+	myView.setSize(sf::Vector2f(1920.0f, 1080.0f));
+
+	sf::Vector2f pos = myView.getCenter();
+
+	float x = Lerp(pos.x, game->targetPos.x, deltaTime * 5);
+	float y = Lerp(pos.y, game->targetPos.y, deltaTime * 5);
+
+	myView.setCenter(x,y);
+
+	myView.zoom(game->targetZoom);
+	window->setView(myView);
+
+}
 
 void UpdateScore(Agent* agent, int add) {
 	agent->score += add;
+
+	agent->shape.setRadius(40.0f * ((agent->score / 30.0f) + 1.0f));
+	agent->shape.setOrigin(agent->shape.getRadius(), agent->shape.getRadius());
 
 	if (agent->score <= 0)
 		agent->score = 0;
@@ -70,15 +94,23 @@ void CheckHeadDamage(Agent* agent, Game* game) {
 
 	while (enemy != game->ennemies.end()) {
 
-		if (agent != *enemy && VectorMagnitude((*enemy)->shape.getPosition() - agent->shape.getPosition()) <= (*enemy)->shape.getRadius() + agent->shape.getRadius() * 1.15f) {
+		if (agent != *enemy && VectorMagnitude((*enemy)->shape.getPosition() - agent->shape.getPosition()) <= (*enemy)->shape.getRadius() + agent->shape.getRadius()) {
 
-			if ((*enemy)->score > agent->score) {
-				(*enemy)->score += agent->score;
-				Respawn(agent);
+			if (agent->type == PLAYER) {
+
+				Respawn(agent, game);
+
 			}
-			else if ((*enemy)->score < agent->score) {
-				agent->score += (*enemy)->score;
-				Respawn((*enemy));
+
+			else {
+
+				if ((*enemy)->score > agent->score) {
+					Respawn(agent, game);
+				}
+				else if ((*enemy)->score < agent->score) {
+					Respawn((*enemy), game);
+				}
+
 			}
 		}
 		enemy++;
@@ -90,14 +122,14 @@ void UpdateBalls(sf::RenderWindow* window, Game* game, float deltaTime) {
 	//printf("ON UPDATE LES BALLS\n");
 	//std::list<Ball*>::iterator it = game->balls.begin();
 
-	if (game->frame % 25 == 0) {
+	if (game->frame % 1 == 0) {
 		//printf("Update player - balls %d\n", game->frame);
 		std::list<Ball*>::iterator it = game->balls.begin();
 		while (it != game->balls.end()) {
 				
-				if (CheckCollision(*it, game->player)) {
+				if (CheckCollision(*it, game->player) && game->player->score <= 100) {
 					UpdateScore(game->player, (*it)->size);
-					float radius = 40.0f * ((game->player->score / 10.0f) + 1.0f);
+					float radius = 40.0f * ((game->player->score / 30.0f) + 1.0f);
 					game->player->shape.setRadius(radius);
 					game->player->shape.setOrigin(radius, radius);
 					it = game->balls.erase(it);
@@ -112,14 +144,14 @@ void UpdateBalls(sf::RenderWindow* window, Game* game, float deltaTime) {
 	}
 
 
-	if (game->frame % 50 == 0) {
+	if (game->frame % 1 == 0) {
 		std::list<Agent*>::iterator enemy = game->ennemies.begin();
 		while (enemy != game->ennemies.end()) {
 			bool erase = false;
 
 			std::list<Ball*>::iterator ball = game->balls.begin();
 			while (ball != game->balls.end()) {
-				if (CheckCollision(*ball, *enemy)) {
+				if (CheckCollision(*ball, *enemy) && (*enemy)->score <= 100) {
 					UpdateScore(*enemy, (*ball)->size);
 					float radius = 40.0f * (((*enemy)->score / 10.0f) + 1.0f);
 					(*enemy)->shape.setRadius(radius);
@@ -214,7 +246,7 @@ void UpdateGame(float deltatime, Game* game, sf::RenderWindow* window) {
 
 					if ((*enemy)->health <= 0) {
 						(*enemy)->health = 100;
-						Respawn((*enemy));
+						Respawn((*enemy), game);
 					}
 
 					erase = true;
@@ -226,7 +258,7 @@ void UpdateGame(float deltatime, Game* game, sf::RenderWindow* window) {
 	}
 
 	//TRAILDAMAGE
-	if (game->frame % 25 == 0) {
+	if (game->frame % 1 == 0) {
 		std::list<Agent*>::iterator enemy = game->ennemies.begin();
 
 		CheckHeadDamage(game->player, game);
@@ -236,11 +268,11 @@ void UpdateGame(float deltatime, Game* game, sf::RenderWindow* window) {
 			CheckHeadDamage(*enemy, game);
 
 			if (CheckTrailDamage((*enemy), game->player)) {
-				Respawn(*enemy);
+				Respawn(*enemy, game);
 			}
 
 			if (CheckTrailDamage(game->player, (*enemy))) {
-				Respawn(game->player);
+				Respawn(game->player, game);
 			}
 
 			enemy++;

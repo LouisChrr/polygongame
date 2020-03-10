@@ -12,7 +12,12 @@ void updateTrail(Agent* agent) {
 
 	agent->trail.shapes.push_back(shape);
 
-	if (agent->trail.shapes.size() > 10 * (1+agent->score))
+	int multplier = 5;
+
+	if (agent->type == PLAYER)
+		multplier = 1;
+
+	while (agent->trail.shapes.size() > multplier * (5+agent->score))
 		agent->trail.shapes.pop_front();
 
 }
@@ -45,9 +50,11 @@ void drawTrail(Agent* agent, sf::RenderWindow* window, float deltaTime) {
 		if (agent->type == PLAYER)
 			(*it).setFillColor(sf::Color(0, alpha, 255, alpha));
 
-		else
-			(*it).setFillColor(sf::Color(alpha, 255 , 0, alpha));
-
+		else {
+		
+			(*it).setFillColor(sf::Color(alpha, agent->trailColor.g, agent->trailColor.b, alpha));
+		
+		}
 	/*	if (alpha <= 0) {
 			it = agent->trail.shapes.erase(it);
 			it++;
@@ -66,9 +73,9 @@ bool CheckTrailDamage(Agent* agent1, Agent* agent2) {
 
 	while (shape != agent2->trail.shapes.end()) {
 
-		if (VectorMagnitude((*shape).getPosition() - agent1->shape.getPosition()) <= (*shape).getRadius() + agent1->shape.getRadius() * 1.2f) {
+		if (VectorMagnitude((*shape).getPosition() - agent1->shape.getPosition()) <= (*shape).getRadius() + agent1->shape.getRadius()) {
 
-			Respawn(agent1);
+			//Respawn(agent1);
 
 			return true;
 		}

@@ -10,7 +10,12 @@ struct Game {
 	std::list<Bullet*> bullets;
 	std::list<Agent*> ennemies;
 	std::list<Ball*> balls;
-	int maxBallCount = 100;
+	int maxBallCount = 50;
+
+	std::list<Agent*> winner;
+
+	float targetZoom;
+	sf::Vector2f targetPos;
 
 	int xMax = 8000;
 	int yMax = 8000;
@@ -29,3 +34,4 @@ void UpdateScore(Agent* agent, int add);
 
 void CheckHeadDamage(Agent* agent, Game* game);
 
+void LerpPosition(sf::RenderWindow* window, float deltaTime, Game* game);

@@ -31,8 +31,7 @@ int main()
     };
 
     sf::Clock clock;
-    sf::RenderWindow window(sf::VideoMode(1600, 900), "SpaceX");
-    sf::View myView;
+    sf::RenderWindow window(sf::VideoMode(1920, 1080), "SpaceX");
 
     Agent* player = CreatePlayer();
     Game* game = CreateGame(player);
@@ -88,7 +87,7 @@ int main()
         }
 
         if (Keys[sf::Keyboard::Key::Space]) {
-            if (cooldown <= 0) {
+            if (cooldown <= 0 && game->player->score > 0) {
                 cooldown = 0.15f;
                 InstantiateBullet(player, game);
             }
@@ -103,14 +102,14 @@ int main()
             UpdateTrails(game);
         }
 
-        if ((ballSpawnCooldown <= 0 && game->balls.size() < game->maxBallCount) || game->balls.size() < 400) {
-            ballSpawnCooldown = 3.0f;
+        if ((ballSpawnCooldown <= 0 && game->balls.size() < game->maxBallCount) || game->balls.size() < 50) {
+            ballSpawnCooldown = 10.0f;
             int random = rand() % 101;
             int size = 1;
-            if (random < 50) {
+            if (random < 60) {
                 size = 1;
             }
-            else if (random >= 50 && random < 85) {
+            else if (random >= 60 && random < 85) {
                 size = 2;
             }
             else if(random < 95 && random >= 85){
@@ -123,10 +122,10 @@ int main()
             CreateBall(game, size);
         }
 
-        myView.setCenter(player->shape.getPosition());
-        myView.setSize(sf::Vector2f(1600.0f, 900.0f));
-        myView.zoom(1.0f + (game->player->score/40.0f));
-        window.setView(myView);
+        game->targetPos = player->shape.getPosition();
+        game->targetZoom = 2.0f + (game->player->score/40.0f);
+
+        LerpPosition(&window, deltaTime, game);
         
         //drawTrail(player, &window);
         //printf("deltatime: %f\n", deltaTime);

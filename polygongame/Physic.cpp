@@ -10,8 +10,8 @@ void AddForce(Agent* agent, sf::Vector2f force, float deltaTime) {
 	agent->movingForce += force * deltaTime * agent->moveSpeed;
 	if (agent->type == ENEMY) {
 		//printf("ENEMY AGENT MOVING FORCE BEFORE CLAMP: %f\n", VectorMagnitude(agent->movingForce));
-		int speed = 300 - (agent->score * 15);
-		if (speed < 200) speed = 200;
+		int speed = 600 - (agent->score * 5);
+		if (speed < 400) speed = 400;
 		if (VectorMagnitude(agent->movingForce) > speed) {
 			agent->movingForce /= VectorMagnitude(agent->movingForce);
 			agent->movingForce /= 1.0f / speed;
@@ -42,5 +42,11 @@ float VectorMagnitude(sf::Vector2f vector) {
 sf::Vector2f ClampForce(sf::Vector2f force) {
 
 	return sf::Vector2f(0,0);
+
+}
+
+float Lerp(float a, float b, float t) {
+
+	return (a + t * (b-a));
 
 }

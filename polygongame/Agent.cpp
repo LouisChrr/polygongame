@@ -30,9 +30,11 @@ Agent* CreateEnemy() {
 	enemy->type = ENEMY;
 	//enemy->damper = 0.8f;
 	enemy->shape = sf::CircleShape(40, 8);
-	enemy->shape.setFillColor(sf::Color::Red);
+	enemy->shape.setFillColor(sf::Color(255, rand() % 255, rand() % 255));
 
 	enemy->shape.setPosition(sf::Vector2f(rand() % 8000, rand() % 8000));
+
+	enemy->trailColor = sf::Color(rand() % 255, rand() % 255, rand() % 255);
 
 
 	enemy->score = 10;
@@ -186,18 +188,25 @@ void UpdateEnemyRotation(Agent* player, Agent* enemy, float deltaTime) {
 	enemy->distance = distance;
 	Rotate(enemy, enemy->rotation, deltaTime);
 
+	if (player->score > 100)
+		AddForce(enemy, lookDir, deltaTime);
+
 }
 
-void Respawn(Agent* agent) {
+void Respawn(Agent* agent, Game* game) {
+
+	SpawnBalls(game,agent->score, agent);
 
 	agent->health = 100;
-	agent->score = 0;
+	UpdateScore(agent, -agent->score);
 
 	agent->shape.setPosition(sf::Vector2f(rand() % 8000, rand()%8000));
 	agent->shape.setRadius(40);
 
-	agent->shape.setOrigin(20,20);
-	
+	agent->shape.setOrigin(40,40);
+
+	agent->acceleration = 0;
+	agent->movingForce = sf::Vector2f(0, 0);
 
 	agent->trail.shapes.clear();
 

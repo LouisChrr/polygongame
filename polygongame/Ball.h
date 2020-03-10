@@ -13,3 +13,4 @@ struct Ball {
 
 void CreateBall(Game* game, int size);
 bool CheckCollision(Ball* ball, Agent* agent);
+void SpawnBalls(Game* game, int totalSize, Agent* agent);
