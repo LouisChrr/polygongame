@@ -39,8 +39,8 @@ int main()
     { sf::Keyboard::Key::Up, false },
     { sf::Keyboard::Key::Down, false },
     { sf::Keyboard::Key::Space, false },
-    { sf::Keyboard::Key::R, false }
-=======
+    { sf::Keyboard::Key::R, false },
+
     { sf::Keyboard::Key::Q, false },
     { sf::Keyboard::Key::D, false },
     { sf::Keyboard::Key::Z, false },

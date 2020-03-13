@@ -4,7 +4,7 @@
 #include "Ball.h"
 #include <cmath>
 #include <iostream>
-#define ennemy_nb 0
+#define ennemy_nb 10
 
 void UpdateText(Game* game, sf::RenderTexture* tex) {
 	sf::Font font;
@@ -236,9 +236,7 @@ void UpdateGame(float deltatime, Game* game, sf::RenderTexture* tex) {
 	// PLAYER
 	drawTrail(game->player, tex, deltatime);
 	MoveAgent(game->player, deltatime);
-	
-	tex->draw(game->player->shape);
-=======
+
 
 	//game->player->lEye = sf::CircleShape(game->player->shape.getRadius() / 3);
 	//game->player->lEye.setFillColor(sf::Color::White);
@@ -264,12 +262,10 @@ void UpdateGame(float deltatime, Game* game, sf::RenderTexture* tex) {
 
 	//game->player->rEye.setOutlineThickness(1);
 	//game->player->rEye.setOutlineColor(sf::Color::Black);
-	window->draw(game->player->convexShape);
+	tex->draw(game->player->convexShape);
 	//window->draw(game->player->shape);
 	//window->draw(game->player->lEye);
 	//window->draw(game->player->rEye);
-
->>>>>>> 0ce9adbbce70c6314c128292c257c35f8b3d0999
 
 	//UI
 	UpdateText(game, tex);
@@ -327,7 +323,7 @@ void UpdateGame(float deltatime, Game* game, sf::RenderTexture* tex) {
 	}
 
 	//TRAILDAMAGE
-	if (game->frame % 25 == 0) {
+	if (game->frame % 1 == 0) {
 		std::list<Agent*>::iterator enemy = game->ennemies.begin();
 
 		CheckHeadDamage(game->player, game);

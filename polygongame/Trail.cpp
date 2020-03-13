@@ -101,7 +101,7 @@ bool CheckTrailDamage(Agent* agent1, Agent* agent2) {
 
 		while (shape != agent2->trail.shapes.end()) {
 
-			if (VectorMagnitude((*shape).getPosition() - agent1->convexShape.getPosition()) <= (*shape).getRadius() + agent1->convexShape.getPoint(2).x) {
+			if (VectorMagnitude((*shape).getPosition() - agent1->convexShape.getPosition()) <= (*shape).getRadius() + agent1->convexShape.getPoint(2).y/2) {
 
 				//Respawn(agent1);
 

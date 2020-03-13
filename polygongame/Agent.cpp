@@ -156,10 +156,10 @@ void MoveAgent(Agent* agent, float deltaTime) {
 
 	if (agent->type == PLAYER) {
 
-		if (agent->shape.getPosition().x < 0 + agent->shape.getRadius() || agent->shape.getPosition().x > 8000 - agent->shape.getRadius())
+		if (agent->convexShape.getPosition().x < 0 + agent->convexShape.getPoint(2).y/2 || agent->convexShape.getPosition().x > 8000 - agent->convexShape.getPoint(2).y / 2)
 			agent->movingForce.x = -agent->movingForce.x;
 
-		if (agent->shape.getPosition().y < 0 + agent->shape.getRadius() || agent->shape.getPosition().y > 8000 - agent->shape.getRadius())
+		if (agent->convexShape.getPosition().y < 0 + agent->convexShape.getPoint(2).y / 2 || agent->convexShape.getPosition().y > 8000 - agent->convexShape.getPoint(2).y / 2)
 			agent->movingForce.y = -agent->movingForce.y;
 	}
 }
