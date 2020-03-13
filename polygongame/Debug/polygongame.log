@@ -4,6 +4,9 @@ C:\Users\Jérôme\Desktop\zeg\polygongame\polygongame\Agent.h(9): message : voir
 C:\Users\Jérôme\Desktop\zeg\polygongame\polygongame\Bullet.h(3,11): warning C4099: 'Game' : nom de type déjà rencontré avec 'struct' et utilisant maintenant 'class'
 C:\Users\Jérôme\Desktop\zeg\polygongame\polygongame\Agent.h(5): message : voir la déclaration de 'Game'
 C:\Users\Jérôme\Desktop\zeg\polygongame\polygongame\Game.cpp(15,39): warning C4244: 'argument' : conversion de 'float' en 'unsigned int', perte possible de données
-C:\Users\Jérôme\Desktop\zeg\polygongame\polygongame\Game.cpp(34,106): warning C4244: 'argument' : conversion de 'unsigned int' en 'float', perte possible de données
-C:\Users\Jérôme\Desktop\zeg\polygongame\polygongame\Game.cpp(34,65): warning C4244: 'argument' : conversion de 'unsigned int' en 'float', perte possible de données
+C:\Users\Jérôme\Desktop\zeg\polygongame\polygongame\Game.cpp(35,106): warning C4244: 'argument' : conversion de 'unsigned int' en 'float', perte possible de données
+C:\Users\Jérôme\Desktop\zeg\polygongame\polygongame\Game.cpp(35,65): warning C4244: 'argument' : conversion de 'unsigned int' en 'float', perte possible de données
+C:\Users\Jérôme\Desktop\zeg\polygongame\polygongame\Game.cpp(43,31): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\Jérôme\Desktop\zeg\polygongame\polygongame\Game.cpp(44,42): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\Jérôme\Desktop\zeg\polygongame\polygongame\Game.cpp(44,27): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
   polygongame.vcxproj -> C:\Users\Jérôme\Desktop\zeg\polygongame\Debug\polygongame.exe

@@ -6,7 +6,7 @@
 #include <iostream>
 #define ennemy_nb 10
 
-void UpdateText(Game* game, sf::RenderWindow* window) {
+void UpdateText(Game* game, sf::RenderTexture* tex) {
 	sf::Font font;
 	font.loadFromFile("OldeEnglish.ttf");
 	std::string score = std::to_string((int)game->player->score);
@@ -17,7 +17,7 @@ void UpdateText(Game* game, sf::RenderWindow* window) {
 	//game->scoreText->setString(std::to_string(game->player->score));
 	game->scoreText->setPosition(game->player->shape.getPosition().x, game->player->shape.getPosition().y - 240);
 
-	window->draw(*(game->scoreText));
+	tex->draw(*(game->scoreText));
 }
 
 Game* CreateGame(Agent* player) {
@@ -26,6 +26,7 @@ Game* CreateGame(Agent* player) {
 	game->bullets = std::list<Bullet*>();
 	game->ennemies = std::list<Agent*>();
 	game->balls = std::list<Ball*>();
+	game->stars = std::list<sf::CircleShape>();
 	sf::Font font;
 	font.loadFromFile("OldeEnglish.ttf");
 	std::string score = std::to_string(game->player->score);
@@ -37,7 +38,13 @@ Game* CreateGame(Agent* player) {
 	game->scoreText->setString(std::to_string(game->player->score));
 	game->scoreText->setPosition(game->player->shape.getPosition().x, game->player->shape.getPosition().y - 120);
 
-	
+	for (int j = 0; j <400 ; j++) {
+
+		sf::CircleShape star(rand() % 5);
+		star.setPosition(rand() % 8000, rand() % 8000);
+		game->stars.push_back(star);
+
+	}
 
 	for (int i = 0; i < ennemy_nb; i++) {
 		Agent* ennemy = CreateEnemy();
@@ -48,11 +55,11 @@ Game* CreateGame(Agent* player) {
 	return game;
 }
 
-void LerpPosition(sf::RenderWindow* window, float deltaTime, Game* game) {
+void LerpPosition(sf::RenderTexture* tex, float deltaTime, Game* game) {
 
 	sf::View myView;
 
-	myView = window->getView();
+	myView = tex->getView();
 	myView.setSize(sf::Vector2f(1920.0f, 1080.0f));
 
 	sf::Vector2f pos = myView.getCenter();
@@ -63,7 +70,7 @@ void LerpPosition(sf::RenderWindow* window, float deltaTime, Game* game) {
 	myView.setCenter(x,y);
 
 	myView.zoom(game->targetZoom);
-	window->setView(myView);
+	tex->setView(myView);
 
 }
 
@@ -118,7 +125,7 @@ void CheckHeadDamage(Agent* agent, Game* game) {
 
 }
 
-void UpdateBalls(sf::RenderWindow* window, Game* game, float deltaTime) {
+void UpdateBalls(sf::RenderTexture* tex, Game* game, float deltaTime) {
 	//printf("ON UPDATE LES BALLS\n");
 	//std::list<Ball*>::iterator it = game->balls.begin();
 
@@ -174,12 +181,13 @@ void UpdateBalls(sf::RenderWindow* window, Game* game, float deltaTime) {
 
 
 
+
 	}
 
 	
 	std::list<Ball*>::iterator it = game->balls.begin();
 	while (it != game->balls.end()) {
-		window->draw((*it)->shape);
+		tex->draw((*it)->shape);
 		it++;
 	}
 
@@ -188,22 +196,34 @@ void UpdateBalls(sf::RenderWindow* window, Game* game, float deltaTime) {
 
 
 
-void UpdateGame(float deltatime, Game* game, sf::RenderWindow* window) {
+void UpdateGame(float deltatime, Game* game, sf::RenderTexture* tex) {
 	// GAME
+
+	sf::RectangleShape fond(sf::Vector2f(8000,8000));
+	fond.setFillColor(sf::Color::Black);
+	fond.setPosition(0, 0);
+	tex->draw(fond);
+
+	std::list<sf::CircleShape>::iterator ite = game->stars.begin();
+	while (ite != game->stars.end()) {
+		tex->draw(*ite);
+		ite++;
+	}
+
 	game->frame++;
 
 	// BALLS
-	UpdateBalls(window, game, deltatime);
+	UpdateBalls(tex, game, deltatime);
 
 
 	// PLAYER
-	drawTrail(game->player, window, deltatime);
+	drawTrail(game->player, tex, deltatime);
 	MoveAgent(game->player, deltatime);
 	
-	window->draw(game->player->shape);
+	tex->draw(game->player->shape);
 
 	//UI
-	UpdateText(game, window);
+	UpdateText(game, tex);
 
 
 	//printf("UPDATE PLAYER FINI // \n");
@@ -212,10 +232,10 @@ void UpdateGame(float deltatime, Game* game, sf::RenderWindow* window) {
 	while (it != game->ennemies.end()) {
 		Agent* enemy = *it;
 		UpdateEnemyRotation(game->player, enemy, deltatime);
-		drawTrail(enemy, window, deltatime);
+		drawTrail(enemy, tex, deltatime);
 		AddForce(enemy, moveDir(enemy, 1), deltatime);
 		MoveAgent(enemy, deltatime);
-		window->draw(enemy->shape);
+		tex->draw(enemy->shape);
 		it++;
 	}
 
@@ -239,7 +259,7 @@ void UpdateGame(float deltatime, Game* game, sf::RenderWindow* window) {
 
 				bool check = CheckDamage(*bullet, *enemy);
 				if (check == false) {
-					window->draw((*bullet)->shape);
+					tex->draw((*bullet)->shape);
 				}
 				else {
 					(*enemy)->health -= (*bullet)->damage;

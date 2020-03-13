@@ -57,4 +57,9 @@
       <Filter>Fichiers sources</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="glow.frag">
+      <Filter>Fichiers sources</Filter>
+    </None>
+  </ItemGroup>
 </Project>

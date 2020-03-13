@@ -10,6 +10,7 @@ struct Game {
 	std::list<Bullet*> bullets;
 	std::list<Agent*> ennemies;
 	std::list<Ball*> balls;
+	std::list<sf::CircleShape> stars;
 	int maxBallCount = 50;
 
 	std::list<Agent*> winner;
@@ -26,12 +27,12 @@ struct Game {
 };
 
 Game* CreateGame(Agent* player);
-void UpdateGame(float deltatime, Game* game, sf::RenderWindow* window);
+void UpdateGame(float deltatime, Game* game, sf::RenderTexture* tex);
 void UpdateTrails(Game* game);
-void UpdateBalls(sf::RenderWindow* window, Game* game, float deltaTime);
+void UpdateBalls(sf::RenderTexture* tex, Game* game, float deltaTime);
 
 void UpdateScore(Agent* agent, int add);
 
 void CheckHeadDamage(Agent* agent, Game* game);
 
-void LerpPosition(sf::RenderWindow* window, float deltaTime, Game* game);
+void LerpPosition(sf::RenderTexture* tex, float deltaTime, Game* game);

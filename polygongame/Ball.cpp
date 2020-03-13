@@ -3,6 +3,7 @@
 #include "Game.h"
 #include <cstdlib>
 #include "Physic.h"
+#include <math.h>
 
 void CreateBall(Game* game, int size) {
 	Ball* ball = new Ball;
@@ -14,6 +15,7 @@ void CreateBall(Game* game, int size) {
 	ball->shape = shape;
 	ball->position = sf::Vector2f(rand() % game->xMax, rand() % game->yMax);
 	ball->shape.setFillColor(sf::Color(255, color, 0));
+    ball->originalColor = sf::Color(255, color, 0);
 	ball->shape.setPosition(ball->position);
 	ball->shape.setOrigin(shape.getRadius(), shape.getRadius());
 	game->balls.push_back(ball);
@@ -27,6 +29,48 @@ bool CheckCollision(Ball* ball, Agent* agent) {
 	}
 
 	return false;
+
+}
+
+void Twinkle(Game* game, float timer) {
+
+        std::list<Ball*>::iterator ball = game->balls.begin();
+
+        while (ball != game->balls.end()) {
+
+           // (*ball)->shape.setFillColor((*ball)->originalColor - sf::Color(0,0,0, -5.0f* sin(5.0f* timer)));
+           // ball++;
+            if (game->frame % 20 == 0) {
+                int random = rand() % 100;
+                if (random < 50) {
+                    (*ball)->twinkle = true;
+                }
+                else {
+                    (*ball)->twinkle = false;
+                }
+            }
+
+            (*ball)->tempColor = (*ball)->shape.getFillColor();
+
+            float alpha = (*ball)->shape.getFillColor().a;
+
+            if ((*ball)->twinkle == true) {
+                alpha += 10;
+            }
+            else {
+                alpha -= 10;
+            }
+
+            if (alpha > 255)
+                alpha = 255;
+
+            else if (alpha <= 100)
+                alpha = 100;
+
+            (*ball)->shape.setFillColor(sf::Color((*ball)->tempColor.r, (*ball)->tempColor.g, (*ball)->tempColor.b, alpha));
+
+             ball++;
+        }
 
 }
 

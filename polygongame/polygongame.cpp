@@ -20,29 +20,48 @@ void UpdateKeyState(bool isActive, sf::Event* event, std::map<sf::Keyboard::Key,
 
 int main()
 {
+    sf::Shader shader;
+
+    if (!sf::Shader::isAvailable())
+    {
+        printf("Shader indisponible");
+    }
+
+    if (!shader.loadFromFile("glow.frag", sf::Shader::Fragment))
+    {
+        printf("Impossible de charger le shader");
+    }
+
     std::map<sf::Keyboard::Key, bool> Keys = {
 
     { sf::Keyboard::Key::Left, false },
     { sf::Keyboard::Key::Right, false },
     { sf::Keyboard::Key::Up, false },
     { sf::Keyboard::Key::Down, false },
-    { sf::Keyboard::Key::Space, false }
+    { sf::Keyboard::Key::Space, false },
+    { sf::Keyboard::Key::R, false }
 
     };
 
     sf::Clock clock;
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "SpaceX");
 
+    sf::RenderTexture tex;
+    tex.create(1920, 1080);
+
     Agent* player = CreatePlayer();
     Game* game = CreateGame(player);
 
-    //float timer = 0.0f;
+    
+    float timer = 0.0f;
     float cooldown = 0.0f;
     float trailCooldown = 0.0f;
     float ballSpawnCooldown = 0.0f;
 
     while (window.isOpen())
     {
+        tex.clear(sf::Color(0,0,50));
+
         sf::Event event;
 
         while (window.pollEvent(event))
@@ -62,13 +81,7 @@ int main()
 
         }
 
-        window.clear();
-
         float deltaTime = clock.restart().asSeconds();
-        //float deltaTime = 0.002f;
-        //printf("deltatime: %f\n", deltaTime);
-       // deltaTime /= 10;
-        //timer += deltaTime;
 
         if (Keys[sf::Keyboard::Key::Left]) {
             Rotate(player, -1, deltaTime);
@@ -93,9 +106,25 @@ int main()
             }
         }
 
+        if (Keys[sf::Keyboard::Key::R]) {
+            timer = 0.0f;
+            cooldown = 0.0f;
+            trailCooldown = 0.0f;
+            ballSpawnCooldown = 0.0f;
+
+            delete player;
+            delete game;
+
+            player = CreatePlayer();
+            game = CreateGame(player);
+        }
+
+        timer += deltaTime;
         cooldown -= deltaTime;
         trailCooldown -= deltaTime;
         ballSpawnCooldown -= deltaTime;
+
+        Twinkle(game, timer);
 
         if (trailCooldown <= 0) {
             trailCooldown = 0.02f;
@@ -125,17 +154,21 @@ int main()
         game->targetPos = player->shape.getPosition();
         game->targetZoom = 2.0f + (game->player->score/40.0f);
 
-        LerpPosition(&window, deltaTime, game);
-        
-        //drawTrail(player, &window);
-        //printf("deltatime: %f\n", deltaTime);
-        //MoveAgent(player, deltaTime);
+        LerpPosition(&tex, deltaTime, game);
 
-        UpdateGame(deltaTime, game, &window);
+        UpdateGame(deltaTime, game, &tex);
 
-        //window.draw(player->shape);
-        //window.draw(enemy->shape);
+        tex.display();
 
+        window.clear();
+
+        //shader.setParameter("texture", tex.getTexture());
+        //shader.setUniform("texOffset", sf::Vector2f(1.0f/(float)tex.getSize().x, 1.0f / (float)tex.getSize().y));
+
+        sf::Sprite sprite;
+        sprite.setTexture(tex.getTexture());
+        window.draw(sprite);
         window.display();
+        
     }
 }

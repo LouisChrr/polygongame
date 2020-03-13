@@ -77,6 +77,14 @@ void MoveAgent(Agent* agent, float deltaTime) {
 	agent->movingForce *= agent->damper;
 	agent->shape.move(agent->movingForce * deltaTime);
 
+	if (agent->type == PLAYER) {
+
+		if (agent->shape.getPosition().x < 0 + agent->shape.getRadius() || agent->shape.getPosition().x > 8000 - agent->shape.getRadius())
+			agent->movingForce.x = -agent->movingForce.x;
+
+		if (agent->shape.getPosition().y < 0 + agent->shape.getRadius() || agent->shape.getPosition().y > 8000 - agent->shape.getRadius())
+			agent->movingForce.y = -agent->movingForce.y;
+	}
 }
 
 sf::Vector2f moveDir(Agent* agent, int direction) {

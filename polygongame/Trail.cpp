@@ -22,7 +22,7 @@ void updateTrail(Agent* agent) {
 
 }
 
-void drawTrail(Agent* agent, sf::RenderWindow* window, float deltaTime) {
+void drawTrail(Agent* agent, sf::RenderTexture* tex, float deltaTime) {
 
 	std::list<sf::CircleShape>::iterator it = agent->trail.shapes.begin();
 
@@ -61,7 +61,7 @@ void drawTrail(Agent* agent, sf::RenderWindow* window, float deltaTime) {
 			return;
 		}*/
 
-		window->draw(*it);
+		tex->draw(*it);
 		it++;
 
 	}
