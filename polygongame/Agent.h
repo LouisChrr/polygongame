@@ -25,6 +25,9 @@ struct Agent {
 	float score = 0;
 
 	sf::Color trailColor;
+	float r, g, b;
+	sf::CircleShape lEye, rEye;
+	sf::ConvexShape convexShape;
 };
 
 Agent* CreatePlayer();

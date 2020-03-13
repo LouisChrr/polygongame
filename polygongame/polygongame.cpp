@@ -40,6 +40,12 @@ int main()
     { sf::Keyboard::Key::Down, false },
     { sf::Keyboard::Key::Space, false },
     { sf::Keyboard::Key::R, false }
+=======
+    { sf::Keyboard::Key::Q, false },
+    { sf::Keyboard::Key::D, false },
+    { sf::Keyboard::Key::Z, false },
+    { sf::Keyboard::Key::S, false },
+    { sf::Keyboard::Key::Space, false }
 
     };
 
@@ -83,19 +89,19 @@ int main()
 
         float deltaTime = clock.restart().asSeconds();
 
-        if (Keys[sf::Keyboard::Key::Left]) {
+        if (Keys[sf::Keyboard::Key::Left] || Keys[sf::Keyboard::Key::Q]) {
             Rotate(player, -1, deltaTime);
         }
 
-        if (Keys[sf::Keyboard::Key::Right]) {
+        if (Keys[sf::Keyboard::Key::Right] || Keys[sf::Keyboard::Key::D]) {
             Rotate(player, 1, deltaTime);
         }
 
-        if (Keys[sf::Keyboard::Key::Up]) {
+        if (Keys[sf::Keyboard::Key::Up] || Keys[sf::Keyboard::Key::Z]) {
             AddForce(player, moveDir(player, 1), deltaTime);
         }
 
-        if (Keys[sf::Keyboard::Key::Down]) {
+        if (Keys[sf::Keyboard::Key::Down] || Keys[sf::Keyboard::Key::S]) {
             AddForce(player, moveDir(player, -1), deltaTime);
         }
 
@@ -131,8 +137,8 @@ int main()
             UpdateTrails(game);
         }
 
-        if ((ballSpawnCooldown <= 0 && game->balls.size() < game->maxBallCount) || game->balls.size() < 50) {
-            ballSpawnCooldown = 10.0f;
+        if ((ballSpawnCooldown <= 0 && game->balls.size() < game->maxBallCount) || game->balls.size() < 20) {
+            ballSpawnCooldown = 5.0f;
             int random = rand() % 101;
             int size = 1;
             if (random < 60) {
@@ -144,14 +150,16 @@ int main()
             else if(random < 95 && random >= 85){
                 size = 3;
             }
-            else {
+            else  if(random <= 99){
                 size = 5;
+            }else{
+                size = 15;
             }
 
             CreateBall(game, size);
         }
 
-        game->targetPos = player->shape.getPosition();
+        game->targetPos = player->convexShape.getPosition();
         game->targetZoom = 2.0f + (game->player->score/40.0f);
 
         LerpPosition(&tex, deltaTime, game);

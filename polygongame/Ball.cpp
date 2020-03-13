@@ -22,13 +22,23 @@ void CreateBall(Game* game, int size) {
 }
 
 bool CheckCollision(Ball* ball, Agent* agent) {
+    if (agent->type == PLAYER) {
+        if (VectorMagnitude(ball->position - agent->convexShape.getPosition()) <= ((agent->convexShape.getPoint(2).x + ball->shape.getRadius()))) {
 
-	if (VectorMagnitude(ball->position - agent->shape.getPosition()) <= ((agent->shape.getRadius() + ball->shape.getRadius()))) {
+            return true;
+        }
 
-		return true;
-	}
+        return false;
+    }
+    else {
+        if (VectorMagnitude(ball->position - agent->shape.getPosition()) <= ((agent->shape.getRadius() + ball->shape.getRadius()))) {
 
-	return false;
+            return true;
+        }
+
+        return false;
+    }
+	
 
 }
 

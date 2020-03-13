@@ -6,13 +6,27 @@ void updateTrail(Agent* agent) {
 
 	sf::CircleShape shape = agent->shape;
 	shape.setPointCount(20);
+	
 	shape.setRadius(shape.getRadius());
-	shape.setOrigin(shape.getRadius(), shape.getRadius());
+	//shape.setOrigin(shape.getRadius(), shape.getRadius());
+
+	
+
+	if (agent->type == PLAYER) {
+		shape.setRadius(agent->convexShape.getPoint(2).x);
+		//shape.setOrigin(agent->convexShape.getPoint(2).x / 2, agent->convexShape.getPoint(2).y / 2);
+		//shape.setOrigin(0, agent->convexShape.getPoint(2).y/2);
+		shape.setPosition(agent->convexShape.getPosition().x - agent->convexShape.getPoint(2).y / 2 * cos(DegToRad(agent->convexShape.getRotation() - 90)), agent->convexShape.getPosition().y + (agent->convexShape.getPoint(2).y / 2) - agent->convexShape.getPoint(2).y / 2 *sin(DegToRad(agent->convexShape.getRotation() - 90))- agent->convexShape.getPoint(2).y / 2);
+		//shape.setPosition(agent->convexShape.getPosition().x agent->convexShape.getPosition().y + (agent->convexShape.getPoint(2).y / 2));
+
+
+		}
+
 	shape.setOutlineThickness(0);
 
 	agent->trail.shapes.push_back(shape);
 
-	int multplier = 5;
+	int multplier = 3;
 
 	if (agent->type == PLAYER)
 		multplier = 1;
@@ -42,20 +56,34 @@ void drawTrail(Agent* agent, sf::RenderTexture* tex, float deltaTime) {
 
 		alpha = (shapeIndex / agent->trail.shapes.size()) * 255.0f;
 
+		if (alpha < 85) {
+			alpha = 85;
+		}
+
 		(*it).setRadius((shapeIndex / agent->trail.shapes.size()) * agent->shape.getRadius() * 0.6f);
 		(*it).setOrigin((*it).getRadius(), (*it).getRadius()*0.5f);
 
 		shapeIndex++;
 
+		
+
 		if (agent->type == PLAYER)
 			(*it).setFillColor(sf::Color(0, alpha, 255, alpha));
 
 		else {
-		
-			(*it).setFillColor(sf::Color(alpha, agent->trailColor.g, agent->trailColor.b, alpha));
-		
+			//alpha /= 100;
+			if (agent->r == 0) {
+				(*it).setFillColor(sf::Color(alpha, agent->trailColor.g - (alpha/5), agent->trailColor.b, alpha));
+			}
+			else if (agent->g == 0) {
+				(*it).setFillColor(sf::Color(agent->trailColor.r, alpha, agent->trailColor.b - (alpha / 5), alpha));
+			}
+			else {
+				(*it).setFillColor(sf::Color(agent->trailColor.r - (alpha / 5), agent->trailColor.g, alpha, alpha));
+			}
 		}
-	/*	if (alpha <= 0) {
+
+		/*	if (alpha <= 0) {
 			it = agent->trail.shapes.erase(it);
 			it++;
 			return;
@@ -68,20 +96,38 @@ void drawTrail(Agent* agent, sf::RenderTexture* tex, float deltaTime) {
 }
 
 bool CheckTrailDamage(Agent* agent1, Agent* agent2) {
+	if (agent1->type == PLAYER) {
+		std::list<sf::CircleShape>::iterator shape = agent2->trail.shapes.begin();
 
-	std::list<sf::CircleShape>::iterator shape = agent2->trail.shapes.begin();
+		while (shape != agent2->trail.shapes.end()) {
 
-	while (shape != agent2->trail.shapes.end()) {
+			if (VectorMagnitude((*shape).getPosition() - agent1->convexShape.getPosition()) <= (*shape).getRadius() + agent1->convexShape.getPoint(2).x) {
 
-		if (VectorMagnitude((*shape).getPosition() - agent1->shape.getPosition()) <= (*shape).getRadius() + agent1->shape.getRadius()) {
+				//Respawn(agent1);
 
-			//Respawn(agent1);
-
-			return true;
+				return true;
+			}
+			shape++;
 		}
-		shape++;
-	}
 
-	return false;
+		return false;
+	}
+	else {
+		std::list<sf::CircleShape>::iterator shape = agent2->trail.shapes.begin();
+
+		while (shape != agent2->trail.shapes.end()) {
+
+			if (VectorMagnitude((*shape).getPosition() - agent1->shape.getPosition()) <= (*shape).getRadius() + agent1->shape.getRadius()) {
+
+				//Respawn(agent1);
+
+				return true;
+			}
+			shape++;
+		}
+
+		return false;
+	}
+	
 
 }

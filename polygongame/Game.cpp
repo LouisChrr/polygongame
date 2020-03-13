@@ -4,7 +4,7 @@
 #include "Ball.h"
 #include <cmath>
 #include <iostream>
-#define ennemy_nb 10
+#define ennemy_nb 0
 
 void UpdateText(Game* game, sf::RenderTexture* tex) {
 	sf::Font font;
@@ -15,7 +15,7 @@ void UpdateText(Game* game, sf::RenderTexture* tex) {
 	game->scoreText->setCharacterSize(40 + game->player->shape.getRadius());
 
 	//game->scoreText->setString(std::to_string(game->player->score));
-	game->scoreText->setPosition(game->player->shape.getPosition().x, game->player->shape.getPosition().y - 240);
+	game->scoreText->setPosition(game->player->convexShape.getPosition().x, game->player->convexShape.getPosition().y - 240);
 
 	tex->draw(*(game->scoreText));
 }
@@ -77,8 +77,22 @@ void LerpPosition(sf::RenderTexture* tex, float deltaTime, Game* game) {
 void UpdateScore(Agent* agent, int add) {
 	agent->score += add;
 
-	agent->shape.setRadius(40.0f * ((agent->score / 30.0f) + 1.0f));
-	agent->shape.setOrigin(agent->shape.getRadius(), agent->shape.getRadius());
+	if (agent->type == PLAYER) {
+		agent->convexShape.setPoint(0, sf::Vector2f(0.0f, 0.0f));
+		agent->convexShape.setPoint(1, sf::Vector2f(-40.0f * ((agent->score / 30.0f) + 1.0f), 160.0f * ((agent->score / 30.0f) + 1.0f)));
+		agent->convexShape.setPoint(2, sf::Vector2f(40.0f * ((agent->score / 30.0f) + 1.0f), 160.0f * ((agent->score / 30.0f) + 1.0f)));
+		agent->convexShape.setOrigin(0.0f, agent->convexShape.getPoint(1).y / 2);
+		agent->shape.setRadius(40.0f * ((agent->score / 30.0f) + 1.0f));
+		agent->shape.setOrigin(agent->shape.getRadius(), agent->shape.getRadius());
+	}
+	else {
+		agent->shape.setRadius(40.0f * ((agent->score / 30.0f) + 1.0f));
+		agent->shape.setOrigin(agent->shape.getRadius(), agent->shape.getRadius());
+	}
+
+	
+
+
 
 	if (agent->score <= 0)
 		agent->score = 0;
@@ -134,11 +148,14 @@ void UpdateBalls(sf::RenderTexture* tex, Game* game, float deltaTime) {
 		std::list<Ball*>::iterator it = game->balls.begin();
 		while (it != game->balls.end()) {
 				
-				if (CheckCollision(*it, game->player) && game->player->score <= 100) {
+				if (CheckCollision(*it, game->player)) {
 					UpdateScore(game->player, (*it)->size);
-					float radius = 40.0f * ((game->player->score / 30.0f) + 1.0f);
-					game->player->shape.setRadius(radius);
-					game->player->shape.setOrigin(radius, radius);
+					//float radius = 40.0f * ((game->player->score / 30.0f) + 1.0f);
+					//game->player->shape.setRadius(radius);
+					//game->player->shape.setOrigin(radius, radius);
+					game->player->convexShape.setOrigin(0.0f, game->player->convexShape.getPoint(1).y / 2);
+					game->player->shape.setRadius(40.0f * ((game->player->score / 30.0f) + 1.0f));
+					game->player->shape.setOrigin(game->player->shape.getRadius(), game->player->shape.getRadius());
 					it = game->balls.erase(it);
 					it = game->balls.end();
 					//return;
@@ -221,6 +238,38 @@ void UpdateGame(float deltatime, Game* game, sf::RenderTexture* tex) {
 	MoveAgent(game->player, deltatime);
 	
 	tex->draw(game->player->shape);
+=======
+
+	//game->player->lEye = sf::CircleShape(game->player->shape.getRadius() / 3);
+	//game->player->lEye.setFillColor(sf::Color::White);
+	//game->player->lEye.setPosition(sf::Vector2f(game->player->shape.getPosition().x - game->player->shape.getRadius() / 4, game->player->shape.getPosition().y - game->player->shape.getRadius() / 3));
+
+	//game->player->lEye.setPosition(50.0f * (sf::Vector2f(cos(DegToRad(game->player->shape.getRotation())), sin(DegToRad(game->player->shape.getRotation())))) + sf::Vector2f(game->player->shape.getPosition().x, game->player->shape.getPosition().y) + sf::Vector2f(0,game->player->shape.getRadius()) );
+	//game->player->lEye.setOrigin(sf::Vector2f(game->player->lEye.getRadius(), game->player->lEye.getRadius()));
+	//game->player->lEye.setOrigin(game->player->shape.getOrigin().x + game->player->shape.getRadius(), game->player->shape.getOrigin().y + game->player->shape.getRadius());
+	//game->player->lEye.setPosition(game->player->shape.getPosition() - game->player->lEye.getOrigin());
+
+	//game->player->lEye.setOutlineThickness(1);
+	//game->player->lEye.setOutlineColor(sf::Color::Black);
+
+	//game->player->rEye = sf::CircleShape(game->player->shape.getRadius() / 3);
+	//game->player->rEye.setFillColor(sf::Color::White);
+	//game->player->rEye.setPosition(sf::Vector2f(game->player->shape.getPosition().x + game->player->shape.getRadius() / 4, game->player->shape.getPosition().y - game->player->shape.getRadius() / 3));
+
+	//game->player->rEye.setPosition(50.0f*(sf::Vector2f(cos(DegToRad(game->player->shape.getRotation())), sin(DegToRad(game->player->shape.getRotation())))) + sf::Vector2f(game->player->shape.getPosition().x  + game->player->shape.getRadius() / 4 , game->player->shape.getPosition().y ) + sf::Vector2f(0,0) );
+	//game->player->rEye.setOrigin(sf::Vector2f(game->player->rEye.getRadius(), game->player->rEye.getRadius()));
+
+	//game->player->rEye.setOrigin(game->player->shape.getOrigin().x + game->player->shape.getRadius(), game->player->shape.getOrigin().y + game->player->shape.getRadius());
+	//game->player->rEye.setPosition(game->player->shape.getPosition() - game->player->rEye.getOrigin());
+
+	//game->player->rEye.setOutlineThickness(1);
+	//game->player->rEye.setOutlineColor(sf::Color::Black);
+	window->draw(game->player->convexShape);
+	//window->draw(game->player->shape);
+	//window->draw(game->player->lEye);
+	//window->draw(game->player->rEye);
+
+>>>>>>> 0ce9adbbce70c6314c128292c257c35f8b3d0999
 
 	//UI
 	UpdateText(game, tex);
@@ -278,7 +327,7 @@ void UpdateGame(float deltatime, Game* game, sf::RenderTexture* tex) {
 	}
 
 	//TRAILDAMAGE
-	if (game->frame % 1 == 0) {
+	if (game->frame % 25 == 0) {
 		std::list<Agent*>::iterator enemy = game->ennemies.begin();
 
 		CheckHeadDamage(game->player, game);
@@ -286,6 +335,14 @@ void UpdateGame(float deltatime, Game* game, sf::RenderTexture* tex) {
 		while (enemy != game->ennemies.end()) {
 
 			CheckHeadDamage(*enemy, game);
+
+			std::list<Agent*>::iterator enemy1 = game->ennemies.begin();
+			while (enemy1 != game->ennemies.end()) {
+				if (CheckTrailDamage((*enemy), (*enemy1)) && enemy != enemy1) {
+					Respawn(*enemy, game);
+				}
+				enemy1++;
+			}
 
 			if (CheckTrailDamage((*enemy), game->player)) {
 				Respawn(*enemy, game);
